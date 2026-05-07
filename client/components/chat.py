@@ -21,53 +21,20 @@ def render_user_input(model_provider, model):
     if not question:
         return
 
-    # USER MESSAGE
-    st.markdown(f"""
-    <div style="
-        text-align:right;
-        margin:10px 0;
-    ">
-        <div style="
-            display:inline-block;
-            background:#2563EB;
-            color:white;
-            padding:10px 14px;
-            border-radius:14px;
-            max-width:75%;
-        ">
-            {question}
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+    with st.chat_message("user"):
+        st.write(question)
 
     with st.spinner("Thinking..."):
 
         try:
-
             output = process_user_input(
                 model_provider,
                 model,
                 question
             )
 
-            # AI MESSAGE
-            st.markdown(f"""
-            <div style="
-                text-align:left;
-                margin:10px 0;
-            ">
-                <div style="
-                    display:inline-block;
-                    background:#262730;
-                    color:white;
-                    padding:10px 14px;
-                    border-radius:14px;
-                    max-width:75%;
-                ">
-                    {output}
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
+            with st.chat_message("assistant"):
+                st.write(output)
 
             pdf_names = [
                 f.name
@@ -130,45 +97,10 @@ def render_uploaded_files_expander():
 
 def render_chat_history():
 
-    for q, a, *_ in st.session_state.get(
-        "chat_history",
-        []
-    ):
+    for q, a, *_ in st.session_state.get("chat_history", []):
 
-        # USER MESSAGE
-        st.markdown(f"""
-        <div style="
-            text-align:right;
-            margin:10px 0;
-        ">
-            <div style="
-                display:inline-block;
-                background:#2563EB;
-                color:white;
-                padding:10px 14px;
-                border-radius:14px;
-                max-width:75%;
-            ">
-                {q}
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+        with st.chat_message("user"):
+            st.write(q)
 
-        # AI MESSAGE
-        st.markdown(f"""
-        <div style="
-            text-align:left;
-            margin:10px 0;
-        ">
-            <div style="
-                display:inline-block;
-                background:#262730;
-                color:white;
-                padding:10px 14px;
-                border-radius:14px;
-                max-width:75%;
-            ">
-                {a}
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+        with st.chat_message("assistant"):
+            st.write(a)

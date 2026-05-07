@@ -2,7 +2,6 @@ import os
 
 from typing import List
 from fastapi import UploadFile
-from langchain_core.documents import Document
 
 from config.settings import (
   GOOGLE_API_KEY,
@@ -30,16 +29,14 @@ def vectorstore_exists(persist_path: str) -> bool:
 
 def get_embeddings(model_provider: str):
   logger.debug(f"Getting embeddings for provider: {model_provider}")
-  if model_provider == "groq":
-    return HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L12-v2")
-  elif model_provider == "gemini":
-    return GoogleGenerativeAIEmbeddings(
-      model="models/embedding-001",
-      google_api_key=GOOGLE_API_KEY
+
+  if model_provider in ["groq", "gemini"]:
+    return HuggingFaceEmbeddings(
+      model_name="sentence-transformers/all-MiniLM-L12-v2"
     )
-  else:
-    logger.error(f"Unsupported LLM Provider: {model_provider}")
-    raise ValueError(f"Unsupported LLM Provider: {model_provider}")
+
+  logger.error(f"Unsupported LLM Provider: {model_provider}")
+  raise ValueError(f"Unsupported LLM Provider: {model_provider}")
 
 def initialize_empty_vectorstores():
   logger.info("Initializing empty vectorstores...")
