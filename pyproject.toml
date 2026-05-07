@@ -1,0 +1,32 @@
+[project]
+name = "documind-ai"
+version = "1.0.0"
+
+description = "RAG-based AI chatbot using FastAPI, Streamlit, LangChain, and ChromaDB with support for preloaded knowledge base PDFs and user-uploaded document grounding."
+
+authors = [
+    { name = "Ashwin Bhatt" }
+]
+
+readme = "README.md"
+requires-python = ">=3.10"
+
+dependencies = [
+    "streamlit",
+    "fastapi",
+    "uvicorn",
+    "python-multipart",
+    "requests",
+    "aiofiles",
+    "python-dotenv",
+    "langchain",
+    "langchain-community",
+    "langchain-google-genai",
+    "langchain-groq",
+    "chromadb",
+    "pypdf",
+    "sentence-transformers",
+    "huggingface-hub",
+    "pandas",
+    "tiktoken"
+]
